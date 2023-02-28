@@ -4,9 +4,10 @@ WORKDIR /app
 
 COPY app .
 
-RUN go build -o server
+#RUN go build -o server
+RUN GOOS=linux go build -ldflags="-w -s" -o server .
 
-FROM alpine:3.17.2
+FROM scratch
 WORKDIR /app
 COPY --from=builder /app/server ./server
 ENTRYPOINT ["./server"]
